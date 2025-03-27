@@ -21,4 +21,15 @@ public class KafkaController {
         return "Message send: " + msg;
     }
 
+    @GetMapping("/send2")
+    public String sendMessage2 (@RequestParam("w") String w, @RequestParam("h") String h) {
+        String message = "your BMI: " + bmiCal(Double.parseDouble(w), Double.parseDouble(h));
+        producer.sendMessage("input-topic", message);
+        return "Message send: " + message;
+    }
+
+    public double bmiCal(double w, double h) {
+        if (h == 0) throw new ArithmeticException("divide by zero");
+        return w / Math.pow(h, 2);
+    }
 }
